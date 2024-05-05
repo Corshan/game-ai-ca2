@@ -2985,6 +2985,7 @@ GameObject:
   - component: {fileID: 8739065424483146793}
   - component: {fileID: 8416589500023773737}
   - component: {fileID: 7753958590104229647}
+  - component: {fileID: 1436513071306720109}
   m_Layer: 0
   m_Name: Flock Leader
   m_TagString: Untagged
@@ -3095,6 +3096,19 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1436513071306720109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7574968023547332778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46180b933bfeb16409a0e58c4dc64a1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _prefab: {fileID: 5884331427846099055, guid: be283ff4274f27245b0a680b12418aca, type: 3}
 --- !u!1 &7596167911980503289
 GameObject:
   m_ObjectHideFlags: 0

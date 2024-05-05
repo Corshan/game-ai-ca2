@@ -6,11 +6,13 @@ TagManager:
   tags:
   - WP
   - Tent
+  - death
+  - Flock
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - NPCs
   - Water
   - UI
   - 

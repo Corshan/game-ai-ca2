@@ -6,6 +6,11 @@ public class FlockM2 : MonoBehaviour
 {
     float speed;
     bool turning = false;
+    [SerializeField][Range(1, 10)] private float _fleeRadius = 3;
+    [SerializeField][Range(1, 20)] private float _detectionRadius = 10;
+    [SerializeField][Range(1, 10)] private float _speed = 1;
+    private bool _fleeing = false;
+    private Vector3 _fleePoint;
 
     void Start()
     {
@@ -15,7 +20,48 @@ public class FlockM2 : MonoBehaviour
 
     void Update()
     {
+        if (_fleeing) Flee();
+        else Flocking();
+    }
 
+    public void SetFlee(Vector3 pos)
+    {
+        _fleePoint = pos;
+        _fleeing = true;
+    }
+
+    private void Flee()
+    {
+        var distance = Vector3.Distance(_fleePoint, transform.position);
+        Debug.Log($"{distance}  {_detectionRadius}", this);
+        if (distance < _detectionRadius)
+        {
+            Vector3 fleeDirection = (this.transform.position - _fleePoint).normalized;
+            Vector3 newGoal = this.transform.position + fleeDirection * _fleeRadius;
+
+            transform.rotation = Quaternion.Slerp(
+                transform.rotation,
+                Quaternion.LookRotation(fleeDirection),
+                FlockManager.Instance.RotationSpeed * Time.deltaTime);
+
+            Move(fleeDirection);
+        }
+        else
+        {
+            _fleeing = false;
+        }
+    }
+
+    void Move(Vector3 vector)
+    {
+        var vel = _speed * Time.deltaTime * vector;
+        vel.y = 0;
+        Debug.Log(vel);
+        transform.position += vel;
+    }
+
+    private void Flocking()
+    {
         Bounds b = new(FlockManager.Instance.transform.position, FlockManager.Instance.Boundary * 2.0f);
 
         if (!b.Contains(transform.position))

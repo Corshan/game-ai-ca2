@@ -2446,11 +2446,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7855484865613562685}
   - component: {fileID: 29016677441769441}
-  - component: {fileID: 6989429884582974779}
   - component: {fileID: 4600178946253610851}
   m_Layer: 0
   m_Name: Flock Agent
-  m_TagString: Untagged
+  m_TagString: Flock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2492,18 +2491,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 2
   m_Center: {x: 0, y: 1.06, z: 0}
---- !u!114 &6989429884582974779
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5581796448873743173}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85c1a743cbbf84241b945b39e32310c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &4600178946253610851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2516,6 +2503,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee55ebfcea970514a90cb80d927bcfec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _fleeRadius: 3
+  _detectionRadius: 20
+  _speed: 4.31
 --- !u!1 &5749816956488083061
 GameObject:
   m_ObjectHideFlags: 0
