@@ -8,6 +8,10 @@ TagManager:
   - Tent
   - death
   - Flock
+  - roof
+  - floor
+  - ammo
+  - wall
   layers:
   - Default
   - TransparentFX
@@ -15,7 +19,7 @@ TagManager:
   - NPCs
   - Water
   - UI
-  - 
+  - Gentic NPC
   - 
   - 
   - 

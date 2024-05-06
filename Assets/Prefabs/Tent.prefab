@@ -173,8 +173,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88229e99250f1754da2b6e237dc5043e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Npc: {fileID: 0}
-  Item: {fileID: 0}
+  Npc: {fileID: 1752006098696300783, guid: 35726ec4a14da0b47b34c71ebc5d0605, type: 3}
+  Item: {fileID: 5884331427846099055, guid: be283ff4274f27245b0a680b12418aca, type: 3}
   SpawnPoint: {fileID: 8180317434390310911}
 --- !u!1 &4707590067840779311
 GameObject:

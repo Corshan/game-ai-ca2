@@ -32,7 +32,7 @@ public class RavengerBehaviour : MonoBehaviour
         _state = ActionState.IDLE;
         _treeStatus = Node.Status.RUNNING;
         
-        _tents ??= GameObject.FindGameObjectsWithTag("Tent").ToList();
+        _tents = GameObject.FindGameObjectsWithTag("Tent").ToList();
 
         Sequence kill = new("Kill NPC");
 

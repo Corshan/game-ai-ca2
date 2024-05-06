@@ -11,17 +11,31 @@ public class FlockM2 : MonoBehaviour
     [SerializeField][Range(1, 10)] private float _speed = 1;
     private bool _fleeing = false;
     private Vector3 _fleePoint;
+    private float _timer;
 
     void Start()
     {
         speed = Random.Range(FlockManager.Instance.MinSpeed, FlockManager.Instance.MaxSpeed);
+        _timer = 0;
     }
 
 
     void Update()
     {
-        if (_fleeing) Flee();
-        else Flocking();
+        if (_fleeing)
+        {
+            Flee();
+            _timer += Time.deltaTime;
+            if (_timer > 3)
+            {
+                _timer = 0;
+                _fleeing = false;
+            }
+        }
+        else
+        {
+            Flocking();
+        }
     }
 
     public void SetFlee(Vector3 pos)

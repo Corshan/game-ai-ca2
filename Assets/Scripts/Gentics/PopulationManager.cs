@@ -7,13 +7,15 @@ namespace Gentics
 {
     public class PopulationManager : MonoBehaviour
     {
-
-        public GameObject botPrefab;
+        public GameObject _prefab;
+        public Vector2[] startingPos;
         public int populationSize = 50;
-        List<GameObject> population = new List<GameObject>();
+        List<GameObject> population = new();
         public static float elapsed = 0;
-        public float trialTime = 5;
+        public float trialTime = 10;
+        public float timeScale = 2;
         int generation = 1;
+        public GenerateMaze maze;
 
         GUIStyle guiStyle = new GUIStyle();
         void OnGUI()
@@ -29,52 +31,70 @@ namespace Gentics
         }
 
 
-        // Use this for initialization
         void Start()
         {
             for (int i = 0; i < populationSize; i++)
             {
-                Vector3 startingPos = new Vector3(this.transform.position.x + Random.Range(-2, 2),
-                                                    this.transform.position.y,
-                                                    this.transform.position.z + Random.Range(-2, 2));
-
-                GameObject b = Instantiate(botPrefab, startingPos, this.transform.rotation);
-                b.GetComponent<Brain>().Init();
-                population.Add(b);
+                int starti = Random.Range(0, startingPos.Length);
+                GameObject go = Instantiate(_prefab, maze.GetTileLocation(startingPos[starti]), transform.rotation);
+                go.transform.Rotate(0, Mathf.Round(Random.Range(-90, 91) / 90) * 90, 0);
+                go.GetComponent<Brain>().Innit();
+                population.Add(go);
             }
+            Time.timeScale = timeScale;
         }
 
         GameObject Breed(GameObject parent1, GameObject parent2)
         {
-            Vector3 startingPos = new Vector3(this.transform.position.x + Random.Range(-2, 2),
-                                                    this.transform.position.y,
-                                                    this.transform.position.z + Random.Range(-2, 2));
-            GameObject offspring = Instantiate(botPrefab, startingPos, this.transform.rotation);
-            Brain b = offspring.GetComponent<Brain>();
-            if (Random.Range(0, 100) == 1) //mutate 1 in 100
+            int starti = Random.Range(0, startingPos.Length);
+            GameObject offspring = Instantiate(_prefab, maze.GetTileLocation(startingPos[starti]), transform.rotation);
+            offspring.transform.Rotate(0, Mathf.Round(Random.Range(-90, 91) / 90) * 90, 0);
+            Brain brain = offspring.GetComponent<Brain>();
+
+            if (Random.Range(0, 100) == 1)
             {
-                b.Init();
-                // b.dna.Mutate();
+                brain.Innit();
+
             }
             else
             {
-                b.Init();
-                // b.dna.Combine(parent1.GetComponent<Brain>().dna, parent2.GetComponent<Brain>().dna);
+                brain.Innit();
+                brain.dna.Combine(parent1.GetComponent<Brain>().dna, parent2.GetComponent<Brain>().dna);
             }
+
             return offspring;
         }
 
         void BreedNewPopulation()
         {
-            List<GameObject> sortedList = population.OrderBy(o => o.GetComponent<Brain>().DNA.Genes.Count).ToList();
+            List<GameObject> sortedList = population.OrderByDescending(x => x.GetComponent<Brain>().ammoFound).ToList();
+            string ammoColected = $"generation: {generation}";
 
-            population.Clear();
-            for (int i = (int)(sortedList.Count / 2.0f) - 1; i < sortedList.Count - 1; i++)
+            foreach (GameObject go in sortedList)
             {
-                population.Add(Breed(sortedList[i], sortedList[i + 1]));
-                population.Add(Breed(sortedList[i + 1], sortedList[i]));
+                ammoColected += $", {go.GetComponent<Brain>().ammoFound}";
             }
-            //destroy all parents and previous population
+
+            Debug.Log($"Ammo Colected: {ammoColected}");
+            population.Clear();
+
+            while (population.Count < populationSize)
+            {
+                int bestParentCutoff = sortedList.Count / 2;
+
+                for (int i = 0; i < bestParentCutoff - 1; i++)
+                {
+                    for (int j = 1; j < bestParentCutoff; j++)
+                    {
+                        population.Add(Breed(sortedList[i], sortedList[j]));
+                        if (population.Count == populationSize) break;
+                        population.Add(Breed(sortedList[j], sortedList[i]));
+                        if (population.Count == populationSize) break;
+                    }
+                    if (population.Count == populationSize) break;
+                }
+            }
+
             for (int i = 0; i < sortedList.Count; i++)
             {
                 Destroy(sortedList[i]);
@@ -82,14 +102,14 @@ namespace Gentics
             generation++;
         }
 
-        // Update is called once per frame
         void Update()
         {
             elapsed += Time.deltaTime;
-            if (elapsed >= trialTime)
+            if (elapsed > trialTime)
             {
-                // BreedNewPopulation();
-                // elapsed = 0;
+                maze.Reset();
+                BreedNewPopulation();
+                elapsed = 0;
             }
         }
     }

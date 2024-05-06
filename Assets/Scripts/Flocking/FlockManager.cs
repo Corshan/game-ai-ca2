@@ -83,7 +83,9 @@ public class FlockManager : MonoBehaviour
                 Random.Range(-_boundary.y, _boundary.y));
         }
 
-        if (Vector3.Distance(_agent.transform.position, _target.transform.position) < _distance)
+        var distance = Vector3.Distance(_agent.transform.position, _target.transform.position);
+        Debug.Log(distance);
+        if (distance < _distance)
         {
             _timer += Time.deltaTime;
             _anim.SetBool("isWalking", false);
